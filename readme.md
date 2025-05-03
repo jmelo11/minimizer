@@ -1,6 +1,6 @@
 # Minimizer
 
-## Author: Jose Melo
+**Author**: Jose Melo
 
 ## Description
 
@@ -14,7 +14,7 @@ Example project of a simple minimizer inspired in the Python Library [[`optimist
 
 `AbstractMinimizer`, `AbstractLineSearch` and `AbstractDescentMethod`: This classes provide interfaces for the minimizer, line search and descent method respectively. The idea is that implementations of `AbstractMinimizer` define the minimization algorithm (update step) and use predefined line search and descent methods.
 
-### Further improvements
+## Further improvements
 
 This is a basic implementation of a minimizer for educational purposes but it could be improved in many ways. Some ideas for further improvements are:
 
