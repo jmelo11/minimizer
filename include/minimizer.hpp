@@ -9,6 +9,7 @@
 #include <variant>
 #include <stdexcept>
 #include <memory>
+#include <iostream>
 
 namespace minimizer
 {
@@ -78,8 +79,8 @@ namespace minimizer
         virtual ~AbstractMinimizer() {};
 
         // Setters
-        void set_line_search(std::unique_ptr<AbstractLineSearch> &&line_search_method) { line_search_method_.swap(line_search_method); } // we want to transfer ownership of the method to the minimizer
-        void set_descent(std::unique_ptr<AbstractDescentMethod> &&descent_method) { descent_method_.swap(descent_method); }              // calls release after moving ownership
+        void set_line_search(std::unique_ptr<AbstractLineSearch> &&line_search_method) { line_search_method_ = std::move(line_search_method); } // we want to transfer ownership of the method to the minimizer
+        void set_descent(std::unique_ptr<AbstractDescentMethod> &&descent_method) { descent_method_ = std::move(descent_method); }              // calls release after moving ownership
         void set_norm(Norm n) { norm_ = n; }
 
         virtual Result solve(const Func &f, const Grad &g, std::optional<Vec> initial_guess = std::nullopt) const = 0;
@@ -108,6 +109,7 @@ namespace minimizer
 
         std::unique_ptr<AbstractLineSearch> line_search_method_ = nullptr;
         std::unique_ptr<AbstractDescentMethod> descent_method_ = nullptr;
+
         Norm norm_ = Norm::L2;
     };
 
@@ -254,6 +256,7 @@ namespace minimizer
 
             std::size_t evals = 1; // we already evaluated g
             double f_val = f(x);
+
             for (std::size_t k = 0; k < n_iter_; ++k)
             {
                 ++evals;
